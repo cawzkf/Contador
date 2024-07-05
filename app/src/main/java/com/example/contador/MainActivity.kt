@@ -4,20 +4,17 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.os.Handler
-import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.android.material.textfield.TextInputLayout.LengthCounter
-import java.util.Objects
 
 class MainActivity : AppCompatActivity() {
     private lateinit var textViewCounter: TextView
     private lateinit var handler: Handler
     private var startTime: Long = 0
     private var isRunning: Boolean = false
-
+    private lateinit var buttonStart: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -27,6 +24,15 @@ class MainActivity : AppCompatActivity() {
         handler = Handler()
         isRunning = false
 
+        buttonStart = findViewById<Button>(R.id.buttonStart)
+        buttonStart.setOnClickListener {
+            if (isRunning) {
+                stopTimer()
+            } else {
+                startTimer()
+            }
+        }
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -34,14 +40,20 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
-
-        fun startTimer(view: View){
-            if(!isRunning){
+        private fun startTimer() {
+            if (!isRunning) {
                 startTime = System.currentTimeMillis()
-                handler.postDelayed(timerRunnable,0)
+                handler.postDelayed(timerRunnable, 0)
                 isRunning = true
+                buttonStart.text = "STOP"
             }
         }
+        private fun stopTimer(){
+            handler.removeCallbacks(timerRunnable)
+            isRunning = false
+            buttonStart.text = "START"
+        }
+
 
         private val timerRunnable = object : Runnable {
             override fun run(){
