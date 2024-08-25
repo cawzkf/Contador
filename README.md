@@ -6,12 +6,12 @@ Este é um aplicativo Android simples que funciona como um cronômetro. O aplica
 
 O aplicativo possui um botão que alterna entre iniciar e parar o cronômetro. O tempo é exibido em um `TextView` e atualizado a cada meio segundo.
 
-### Requisitos
+## Requisitos
 
 - Android Studio
 - SDK Android (API 21 ou superior)
 
-#### Instalação
+## Instalação
 
 1. Clone o repositório:
 
